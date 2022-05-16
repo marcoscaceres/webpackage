@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version fb1e763a4, updated Tue Mar 1 13:13:50 2022 -0800" name="generator">
   <link href="https://wicg.github.io/webpackage/subresource-loading.html" rel="canonical">
-  <meta content="d944514cdcdb6e8f1175ca686a257073affdf5cd" name="document-revision">
+  <meta content="e8506a57b51a855159f177a1554a325d6eb26544" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -500,8 +500,9 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <li>
      <a href="#fetch-monkeypatches"><span class="secno">4</span> <span class="content">Fetch monkeypatches</span></a>
      <ol class="toc">
-      <li><a href="#monkeypatch-fetch-scheme"><span class="secno">4.1</span> <span class="content">Monkeypatch fetch scheme</span></a>
-      <li><a href="#monkeypatch-http-network-or-cache-fetch"><span class="secno">4.2</span> <span class="content">Monkeypatch HTTP-network-or-cache fetch</span></a>
+      <li><a href="#monkeypatch-fetch"><span class="secno">4.1</span> <span class="content">Monkeypatch fetch</span></a>
+      <li><a href="#monkeypatch-fetch-scheme"><span class="secno">4.2</span> <span class="content">Monkeypatch fetch scheme</span></a>
+      <li><a href="#monkeypatch-http-network-or-cache-fetch"><span class="secno">4.3</span> <span class="content">Monkeypatch HTTP-network-or-cache fetch</span></a>
      </ol>
     <li>
      <a href="#csp-monkeypatches"><span class="secno">5</span> <span class="content">CSP monkeypatches</span></a>
@@ -846,13 +847,28 @@ from the document</a>, user agents must run the following algorithm:</p>
      </ol>
    </ol>
    <h2 class="heading settled" data-level="4" id="fetch-monkeypatches"><span class="secno">4. </span><span class="content">Fetch monkeypatches</span><a class="self-link" href="#fetch-monkeypatches"></a></h2>
-   <h3 class="heading settled" data-level="4.1" id="monkeypatch-fetch-scheme"><span class="secno">4.1. </span><span class="content">Monkeypatch fetch scheme</span><a class="self-link" href="#monkeypatch-fetch-scheme"></a></h3>
+   <h3 class="heading settled" data-level="4.1" id="monkeypatch-fetch"><span class="secno">4.1. </span><span class="content">Monkeypatch fetch</span><a class="self-link" href="#monkeypatch-fetch"></a></h3>
+   <p>In <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-fetch" id="ref-for-concept-fetch">fetch</a>, before</p>
+   <blockquote>
+    <ol start="2">
+     <li data-md>
+      <p>Let <var>taskDestination</var> be null.</p>
+    </ol>
+   </blockquote>
+   <p>add the following step:</p>
+   <ol start="2">
+    <li data-md>
+     <p>If the result of <a data-link-type="dfn" href="#find-a-matching-web-bundle-registration" id="ref-for-find-a-matching-web-bundle-registration">find a matching web bundle registration</a> given <var>request</var> is null, set <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#request-service-workers-mode" id="ref-for-request-service-workers-mode">service-workers mode</a> to "<code>none</code>".</p>
+   </ol>
+   <p class="note" role="note"><span>Note:</span> This means that no service workers will get events for a subresource
+loading from a webbundle.</p>
+   <h3 class="heading settled" data-level="4.2" id="monkeypatch-fetch-scheme"><span class="secno">4.2. </span><span class="content">Monkeypatch fetch scheme</span><a class="self-link" href="#monkeypatch-fetch-scheme"></a></h3>
    <p>Add "<code>uuid-in-package</code>" to the schemes listed in <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#fetch-scheme" id="ref-for-fetch-scheme">fetch
 scheme</a>.</p>
    <p class="note" role="note"><span>Note:</span> This ensures that the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigate" id="ref-for-navigate">navigate</a> algorithm uses the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsing-the-web.html#process-a-navigate-fetch" id="ref-for-process-a-navigate-fetch">process a navigate fetch</a> algorithm for <code>uuid-in-package:</code> URLs.</p>
    <p class="note" role="note"><span>Note:</span> The <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin" id="ref-for-concept-url-origin">origin</a> of a URL whose scheme is "<code>uuid-in-package</code>" is an
 opaque origin.</p>
-   <h3 class="heading settled" data-level="4.2" id="monkeypatch-http-network-or-cache-fetch"><span class="secno">4.2. </span><span class="content">Monkeypatch HTTP-network-or-cache fetch</span><a class="self-link" href="#monkeypatch-http-network-or-cache-fetch"></a></h3>
+   <h3 class="heading settled" data-level="4.3" id="monkeypatch-http-network-or-cache-fetch"><span class="secno">4.3. </span><span class="content">Monkeypatch HTTP-network-or-cache fetch</span><a class="self-link" href="#monkeypatch-http-network-or-cache-fetch"></a></h3>
    <p>In <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-http-network-or-cache-fetch" id="ref-for-concept-http-network-or-cache-fetch">HTTP-network-or-cache fetch</a>, before</p>
    <blockquote>
     <p>8.22. Set httpCache to the result of determining the HTTP cache partition,
@@ -883,7 +899,7 @@ given <var>httpRequest</var>.</p>
      <p>If <var>url</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-scheme" id="ref-for-concept-url-scheme">scheme</a> is "<code>uuid-in-package</code>", then:</p>
      <ol>
       <li data-md>
-       <p>Let <var>registration</var> be the result of running <a data-link-type="dfn" href="#find-a-matching-web-bundle-registration" id="ref-for-find-a-matching-web-bundle-registration">find a matching web bundle
+       <p>Let <var>registration</var> be the result of running <a data-link-type="dfn" href="#find-a-matching-web-bundle-registration" id="ref-for-find-a-matching-web-bundle-registration①">find a matching web bundle
   registration</a> given <var>request</var>.</p>
       <li data-md>
        <p>If <var>registration</var> is not null, then set <var>url</var> to <var>registration</var>’s <a data-link-type="dfn" href="#web-bundle-registration-fetch-entry" id="ref-for-web-bundle-registration-fetch-entry⑦">fetch entry</a>'s <a data-link-type="dfn" href="#web-bundle-fetch-entry-source" id="ref-for-web-bundle-fetch-entry-source③">source</a>.</p>
@@ -906,7 +922,7 @@ detailed motivation.</p>
      <p>If <var>url</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-scheme" id="ref-for-concept-url-scheme①">scheme</a> is "<code>uuid-in-package</code>", then:</p>
      <ol>
       <li data-md>
-       <p>Let <var>registration</var> be the result of running <a data-link-type="dfn" href="#find-a-matching-web-bundle-registration" id="ref-for-find-a-matching-web-bundle-registration①">find a matching web bundle
+       <p>Let <var>registration</var> be the result of running <a data-link-type="dfn" href="#find-a-matching-web-bundle-registration" id="ref-for-find-a-matching-web-bundle-registration②">find a matching web bundle
   registration</a> given <var>request</var>.</p>
       <li data-md>
        <p>If <var>registration</var> is not null, then set <var>url</var> to <var>registration</var>’s <a data-link-type="dfn" href="#web-bundle-registration-fetch-entry" id="ref-for-web-bundle-registration-fetch-entry⑧">fetch entry</a>'s <a data-link-type="dfn" href="#web-bundle-fetch-entry-source" id="ref-for-web-bundle-fetch-entry-source④">source</a>.</p>
@@ -1018,12 +1034,14 @@ detailed motivation.</p>
     <li data-md>
      <p>Set <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-credentials-mode" id="ref-for-concept-request-credentials-mode②">credentials mode</a> to <var>fetch entry</var>’s <a data-link-type="dfn" href="#web-bundle-fetch-entry-credentials" id="ref-for-web-bundle-fetch-entry-credentials③">credentials</a>.</p>
     <li data-md>
+     <p>Set <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#request-service-workers-mode" id="ref-for-request-service-workers-mode①">service-workers mode</a> to "<code>none</code>".</p>
+    <li data-md>
      <p>Append a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header">header</a>, a tuple of ("Accept", "application/webbundle;v=b2"), to <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-header-list" id="ref-for-concept-request-header-list">header list</a>.</p>
      <p class="note" role="note"><span>Note:</span> The final <a data-link-type="biblio" href="#biblio-draft-ietf-wpack-bundled-responses-latest">[draft-ietf-wpack-bundled-responses-latest]</a> will use a
  version of <code>1</code>, but this specification tracks what’s actually implemented in
  browsers, which still uses draft versions.</p>
     <li data-md>
-     <p><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-fetch" id="ref-for-concept-fetch">Fetch</a> <var>request</var> with <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#process-response" id="ref-for-process-response">processResponse</a> algorithm set to <a data-link-type="dfn" href="#concept-process-web-bundle-response" id="ref-for-concept-process-web-bundle-response">process web
+     <p><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-fetch" id="ref-for-concept-fetch①">Fetch</a> <var>request</var> with <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#process-response" id="ref-for-process-response">processResponse</a> algorithm set to <a data-link-type="dfn" href="#concept-process-web-bundle-response" id="ref-for-concept-process-web-bundle-response">process web
  bundle response</a> which is partially applied with <var>fetch entry</var>.</p>
      <p class="note" role="note"><span>Note:</span> Chromium’s current implementation doesn’t allow a nested bundle. A Web
  bundle is never fetched from other web bundles.</p>
@@ -1056,7 +1074,7 @@ response</dfn> given <a data-link-type="dfn" href="#web-bundle-fetch-entry" id="
    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="fetch-a-subresource-from-web-bundle">fetch a subresource from web bundle</dfn> given <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request①">request</a> <var>httpRequest</var>:</p>
    <ol>
     <li data-md>
-     <p>Let <var>registration</var> be the result of running <a data-link-type="dfn" href="#find-a-matching-web-bundle-registration" id="ref-for-find-a-matching-web-bundle-registration②">find a matching web bundle
+     <p>Let <var>registration</var> be the result of running <a data-link-type="dfn" href="#find-a-matching-web-bundle-registration" id="ref-for-find-a-matching-web-bundle-registration③">find a matching web bundle
  registration</a> given <var>httpRequest</var>.</p>
     <li data-md>
      <p>If <var>registration</var> is not null:</p>
@@ -1281,7 +1299,8 @@ unlike returning a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#
   <aside class="dfn-panel" data-for="term-for-concept-fetch">
    <a href="https://fetch.spec.whatwg.org/#concept-fetch">https://fetch.spec.whatwg.org/#concept-fetch</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-fetch">6.2. Fetching a web bundle</a>
+    <li><a href="#ref-for-concept-fetch">4.1. Monkeypatch fetch</a>
+    <li><a href="#ref-for-concept-fetch①">6.2. Fetching a web bundle</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-fetch-params">
@@ -1293,7 +1312,7 @@ unlike returning a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#
   <aside class="dfn-panel" data-for="term-for-fetch-scheme">
    <a href="https://fetch.spec.whatwg.org/#fetch-scheme">https://fetch.spec.whatwg.org/#fetch-scheme</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-fetch-scheme">4.1. Monkeypatch fetch scheme</a>
+    <li><a href="#ref-for-fetch-scheme">4.2. Monkeypatch fetch scheme</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-header">
@@ -1311,7 +1330,7 @@ unlike returning a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#
   <aside class="dfn-panel" data-for="term-for-concept-http-network-or-cache-fetch">
    <a href="https://fetch.spec.whatwg.org/#concept-http-network-or-cache-fetch">https://fetch.spec.whatwg.org/#concept-http-network-or-cache-fetch</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-http-network-or-cache-fetch">4.2. Monkeypatch HTTP-network-or-cache fetch</a>
+    <li><a href="#ref-for-concept-http-network-or-cache-fetch">4.3. Monkeypatch HTTP-network-or-cache fetch</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-body-incrementally-read">
@@ -1329,7 +1348,7 @@ unlike returning a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#
   <aside class="dfn-panel" data-for="term-for-concept-network-error">
    <a href="https://fetch.spec.whatwg.org/#concept-network-error">https://fetch.spec.whatwg.org/#concept-network-error</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-network-error">4.2. Monkeypatch HTTP-network-or-cache fetch</a> <a href="#ref-for-concept-network-error①">(2)</a>
+    <li><a href="#ref-for-concept-network-error">4.3. Monkeypatch HTTP-network-or-cache fetch</a> <a href="#ref-for-concept-network-error①">(2)</a>
     <li><a href="#ref-for-concept-network-error②">6.4. Fetching subresources from a web bundle</a> <a href="#ref-for-concept-network-error③">(2)</a>
    </ul>
   </aside>
@@ -1365,6 +1384,13 @@ unlike returning a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#
    <ul>
     <li><a href="#ref-for-concept-response">6.3. Process web bundle response</a>
     <li><a href="#ref-for-concept-response①">6.4. Fetching subresources from a web bundle</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-request-service-workers-mode">
+   <a href="https://fetch.spec.whatwg.org/#request-service-workers-mode">https://fetch.spec.whatwg.org/#request-service-workers-mode</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-request-service-workers-mode">4.1. Monkeypatch fetch</a>
+    <li><a href="#ref-for-request-service-workers-mode①">6.2. Fetching a web bundle</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-response-status">
@@ -1419,7 +1445,7 @@ unlike returning a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#
   <aside class="dfn-panel" data-for="term-for-navigate">
    <a href="https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigate">https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigate</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-navigate">4.1. Monkeypatch fetch scheme</a>
+    <li><a href="#ref-for-navigate">4.2. Monkeypatch fetch scheme</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-node-document">
@@ -1441,7 +1467,7 @@ unlike returning a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#
   <aside class="dfn-panel" data-for="term-for-process-a-navigate-fetch">
    <a href="https://html.spec.whatwg.org/multipage/browsing-the-web.html#process-a-navigate-fetch">https://html.spec.whatwg.org/multipage/browsing-the-web.html#process-a-navigate-fetch</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-process-a-navigate-fetch">4.1. Monkeypatch fetch scheme</a>
+    <li><a href="#ref-for-process-a-navigate-fetch">4.2. Monkeypatch fetch scheme</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-queue-a-microtask">
@@ -1591,7 +1617,7 @@ unlike returning a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#
   <aside class="dfn-panel" data-for="term-for-concept-url-origin">
    <a href="https://url.spec.whatwg.org/#concept-url-origin">https://url.spec.whatwg.org/#concept-url-origin</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-url-origin">4.1. Monkeypatch fetch scheme</a>
+    <li><a href="#ref-for-concept-url-origin">4.2. Monkeypatch fetch scheme</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-url-scheme">
@@ -1670,6 +1696,7 @@ unlike returning a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#
      <li><span class="dfn-paneled" id="term-for-concept-request-redirect-count">redirect count</span>
      <li><span class="dfn-paneled" id="term-for-concept-request">request</span>
      <li><span class="dfn-paneled" id="term-for-concept-response">response</span>
+     <li><span class="dfn-paneled" id="term-for-request-service-workers-mode">service-workers mode</span>
      <li><span class="dfn-paneled" id="term-for-concept-response-status">status</span>
      <li><span class="dfn-paneled" id="term-for-concept-response-url">url <small>(for response)</small></span>
     </ul>
@@ -1999,7 +2026,7 @@ order shouldn’t be important. <a class="issue-return" href="#issue-0a9e75a1" t
   <aside class="dfn-panel" data-for="fetch-a-subresource-from-web-bundle">
    <b><a href="#fetch-a-subresource-from-web-bundle">#fetch-a-subresource-from-web-bundle</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-fetch-a-subresource-from-web-bundle">4.2. Monkeypatch HTTP-network-or-cache fetch</a>
+    <li><a href="#ref-for-fetch-a-subresource-from-web-bundle">4.3. Monkeypatch HTTP-network-or-cache fetch</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="get-response-from-web-bundle-fetch-entry">
@@ -2011,9 +2038,10 @@ order shouldn’t be important. <a class="issue-return" href="#issue-0a9e75a1" t
   <aside class="dfn-panel" data-for="find-a-matching-web-bundle-registration">
    <b><a href="#find-a-matching-web-bundle-registration">#find-a-matching-web-bundle-registration</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-find-a-matching-web-bundle-registration">5.1. Monkeypatch Does request match source list?</a>
-    <li><a href="#ref-for-find-a-matching-web-bundle-registration①">5.2. Monkeypatch Does response to request match source list?</a>
-    <li><a href="#ref-for-find-a-matching-web-bundle-registration②">6.4. Fetching subresources from a web bundle</a>
+    <li><a href="#ref-for-find-a-matching-web-bundle-registration">4.1. Monkeypatch fetch</a>
+    <li><a href="#ref-for-find-a-matching-web-bundle-registration①">5.1. Monkeypatch Does request match source list?</a>
+    <li><a href="#ref-for-find-a-matching-web-bundle-registration②">5.2. Monkeypatch Does response to request match source list?</a>
+    <li><a href="#ref-for-find-a-matching-web-bundle-registration③">6.4. Fetching subresources from a web bundle</a>
    </ul>
   </aside>
 <script>/* script-dfn-panel */
