@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version fb1e763a4, updated Tue Mar 1 13:13:50 2022 -0800" name="generator">
   <link href="https://wicg.github.io/webpackage/subresource-loading.html" rel="canonical">
-  <meta content="e8506a57b51a855159f177a1554a325d6eb26544" name="document-revision">
+  <meta content="aab2ba85fb1766949b9f19ee26fc4393eca3dab7" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -451,7 +451,7 @@ dfn > a.self-link::before      { content: "#"; }
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Subresource Loading with Web Bundles</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2022-05-16">16 May 2022</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2022-05-23">23 May 2022</time></p>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -609,7 +609,7 @@ is a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list" id="ref-
 order shouldn’t be important.</p>
    <p class="issue" id="issue-411f8f6f"><a class="self-link" href="#issue-411f8f6f"></a> Not supported for workers.</p>
    <h2 class="heading settled" data-level="3" id="html-monkeypatches"><span class="secno">3. </span><span class="content">HTML monkeypatches</span><a class="self-link" href="#html-monkeypatches"></a></h2>
-   <p>To process web bundles in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#prepare-a-script" id="ref-for-prepare-a-script">prepare a script</a> algorithm
+   <p>To process web bundles in the <a data-link-type="dfn">prepare a script</a> algorithm
 consistently with existing script types (i.e. classic or module), we make the
 following changes:</p>
    <ul>
@@ -624,28 +624,28 @@ registration</a>; and</p>
 representing a parse error when non-null.</p>
      </ul>
     <li data-md>
-     <p>Add "<code>webbundle</code>" to a possible value of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#concept-script-type" id="ref-for-concept-script-type">the script’s type</a>.</p>
+     <p>Add "<code>webbundle</code>" to a possible value of <a data-link-type="dfn">the script’s type</a>.</p>
     <li data-md>
-     <p>Rename <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#concept-script-script" id="ref-for-concept-script-script">the script’s script</a> to <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="the script’s result" data-noexport id="the-scripts-result">the script’s
+     <p>Rename <a data-link-type="dfn">the script’s script</a> to <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="the script’s result" data-noexport id="the-scripts-result">the script’s
 result</dfn>, which can be either a <a href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-script">script</a> or a <a data-link-type="dfn" href="#web-bundle-result" id="ref-for-web-bundle-result">web bundle result</a>.</p>
    </ul>
    <p class="note" role="note"><span>Note:</span> Because we don’t make <a data-link-type="dfn" href="#web-bundle-result" id="ref-for-web-bundle-result①">web bundle result</a> a new subclass of <a href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-script">script</a>,
 other script execution-related specs are left unaffected.</p>
    <h3 class="heading settled" data-level="3.1" id="integration-prepare-a-script"><span class="secno">3.1. </span><span class="content">Prepare a script</span><a class="self-link" href="#integration-prepare-a-script"></a></h3>
-   <p>Inside the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#prepare-a-script" id="ref-for-prepare-a-script①">prepare a script</a> algorithm, we make the following
+   <p>Inside the <a data-link-type="dfn">prepare a script</a> algorithm, we make the following
 changes:</p>
    <ul>
     <li data-md>
-     <p>Insert the following step to <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#prepare-a-script" id="ref-for-prepare-a-script②">prepare a script</a> step 8, under "Determine the
+     <p>Insert the following step to <a data-link-type="dfn">prepare a script</a> step 8, under "Determine the
 script’s type as follows:":</p>
      <ul>
       <li data-md>
        <p>If the script block’s type string is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ascii-case-insensitive" id="ref-for-ascii-case-insensitive">ASCII case-insensitive</a> match for
-the string "<code>webbundle</code>", <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#concept-script-type" id="ref-for-concept-script-type①">the script’s type</a> is
+the string "<code>webbundle</code>", <a data-link-type="dfn">the script’s type</a> is
 "<code>webbundle</code>".</p>
      </ul>
     <li data-md>
-     <p>Insert the following case to <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#prepare-a-script" id="ref-for-prepare-a-script③">prepare a script</a> step 26.7:</p>
+     <p>Insert the following case to <a data-link-type="dfn">prepare a script</a> step 26.7:</p>
      <ul>
       <li data-md>
        <p>"<code>webbundle</code>":</p>
@@ -658,7 +658,7 @@ the string "<code>webbundle</code>", <a data-link-type="dfn" href="https://html.
        </ol>
      </ul>
     <li data-md>
-     <p>Insert the following case to <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#prepare-a-script" id="ref-for-prepare-a-script④">prepare a script</a> step 27.2:</p>
+     <p>Insert the following case to <a data-link-type="dfn">prepare a script</a> step 27.2:</p>
      <ul>
       <li data-md>
        <p>"<code>webbundle</code>":</p>
@@ -668,19 +668,19 @@ the string "<code>webbundle</code>", <a data-link-type="dfn" href="https://html.
        </ol>
      </ul>
     <li data-md>
-     <p>Insert the following case to <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#prepare-a-script" id="ref-for-prepare-a-script⑤">prepare a script</a> step 28:</p>
+     <p>Insert the following case to <a data-link-type="dfn">prepare a script</a> step 28:</p>
      <ul>
       <li data-md>
-       <p>If <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#concept-script-type" id="ref-for-concept-script-type②">the script’s type</a> is "<code>webbundle</code>":</p>
+       <p>If <a data-link-type="dfn">the script’s type</a> is "<code>webbundle</code>":</p>
        <ol>
         <li data-md>
-         <p class="assertion">Assert: <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#the-script-is-ready" id="ref-for-the-script-is-ready">the script is ready</a>.</p>
+         <p class="assertion">Assert: <a data-link-type="dfn">the script is ready</a>.</p>
         <li data-md>
          <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel" id="ref-for-in-parallel">In parallel</a>, <a data-link-type="dfn" href="#process-events-for-a-web-bundle" id="ref-for-process-events-for-a-web-bundle">process events for a web bundle</a> given <var>element</var>.</p>
        </ol>
      </ul>
    </ul>
-   <p class="note" role="note"><span>NOTE:</span> CSPs are applied to inline web bundles at Step 15 of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#prepare-a-script" id="ref-for-prepare-a-script⑥">prepare a script</a>, just like applied to classic/module
+   <p class="note" role="note"><span>NOTE:</span> CSPs are applied to inline web bundles at Step 15 of <a data-link-type="dfn">prepare a script</a>, just like applied to classic/module
 scripts.</p>
    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="prepare-a-web-bundle">prepare a web bundle</dfn>, given an <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/scripting.html#htmlscriptelement" id="ref-for-htmlscriptelement">HTMLScriptElement</a></code> <var>element</var>, a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#string" id="ref-for-string">string</a> <var>sourceText</var> and a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url④">URL</a> <var>baseURL</var>:</p>
    <ol>
@@ -693,7 +693,7 @@ scripts.</p>
        <p>Set <a data-link-type="dfn" href="#the-scripts-result" id="ref-for-the-scripts-result">the script’s result</a> to a new <a data-link-type="dfn" href="#web-bundle-result" id="ref-for-web-bundle-result②">web bundle result</a> with its <a data-link-type="dfn" href="#web-bundle-result-registration" id="ref-for-web-bundle-result-registration">registration</a> is null and its <a data-link-type="dfn" href="#web-bundle-result-error-to-rethrow" id="ref-for-web-bundle-result-error-to-rethrow">error to
   rethrow</a> is the exception thrown.</p>
       <li data-md>
-       <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#the-script-is-ready" id="ref-for-the-script-is-ready①">The script is ready</a>.</p>
+       <p><a data-link-type="dfn">The script is ready</a>.</p>
       <li data-md>
        <p>Return.</p>
      </ol>
@@ -735,17 +735,17 @@ scripts.</p>
     <li data-md>
      <p>Set <a data-link-type="dfn" href="#the-scripts-result" id="ref-for-the-scripts-result②">the script’s result</a> to a new <a data-link-type="dfn" href="#web-bundle-result" id="ref-for-web-bundle-result③">web bundle result</a> with its <a data-link-type="dfn" href="#web-bundle-result-registration" id="ref-for-web-bundle-result-registration②">registration</a> is <var>registration</var> and its <a data-link-type="dfn" href="#web-bundle-result-error-to-rethrow" id="ref-for-web-bundle-result-error-to-rethrow①">error to rethrow</a> is null.</p>
     <li data-md>
-     <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#the-script-is-ready" id="ref-for-the-script-is-ready②">The script is ready</a>.</p>
+     <p><a data-link-type="dfn">The script is ready</a>.</p>
    </ol>
    <h3 class="heading settled" data-level="3.2" id="firing-events"><span class="secno">3.2. </span><span class="content">Firing events</span><a class="self-link" href="#firing-events"></a></h3>
-   <p>In <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#execute-the-script-block" id="ref-for-execute-the-script-block">execute a script block</a>, add the following case to Step 6:</p>
+   <p>In <a data-link-type="dfn">execute a script block</a>, add the following case to Step 6:</p>
    <ul>
     <li data-md>
      <p>"<code>webbundle</code>":</p>
      <ol>
       <li data-md>
        <p class="assertion">Assert: Never reached.</p>
-       <p class="note" role="note"><span>Note:</span> Web bundles are processed by <a data-link-type="dfn" href="#process-events-for-a-web-bundle" id="ref-for-process-events-for-a-web-bundle①">process events for a web bundle</a> instead of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#execute-the-script-block" id="ref-for-execute-the-script-block①">execute a script block</a>.</p>
+       <p class="note" role="note"><span>Note:</span> Web bundles are processed by <a data-link-type="dfn" href="#process-events-for-a-web-bundle" id="ref-for-process-events-for-a-web-bundle①">process events for a web bundle</a> instead of <a data-link-type="dfn">execute a script block</a>.</p>
      </ol>
    </ul>
    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="process-events-for-a-web-bundle">process events for a web bundle</dfn> given an <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/scripting.html#htmlscriptelement" id="ref-for-htmlscriptelement②">HTMLScriptElement</a></code> <var>element</var>:</p>
@@ -753,7 +753,7 @@ scripts.</p>
     <li data-md>
      <p>Let <var>result</var> be <a data-link-type="dfn" href="#the-scripts-result" id="ref-for-the-scripts-result③">the script’s result</a> of <var>element</var>.</p>
     <li data-md>
-     <p class="assertion">Assert: <var>element</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#concept-script-type" id="ref-for-concept-script-type③">the script’s type</a> is "<code>webbundle</code>".</p>
+     <p class="assertion">Assert: <var>element</var>’s <a data-link-type="dfn">the script’s type</a> is "<code>webbundle</code>".</p>
     <li data-md>
      <p class="assertion">Assert: <var>result</var> is an <a data-link-type="dfn" href="#web-bundle-result" id="ref-for-web-bundle-result④">web bundle result</a>.</p>
     <li data-md>
@@ -766,8 +766,8 @@ scripts.</p>
  entry</a>'s <a data-link-type="dfn" href="#web-bundle-fetch-entry-state" id="ref-for-web-bundle-fetch-entry-state①">state</a> becomes "fetched" or "failed".</p>
      </ul>
      <p class="note" role="note"><span>Note:</span> Unlike other script types, we wait asynchronously here for <a data-link-type="dfn" href="#fetched-web-bundle" id="ref-for-fetched-web-bundle①">fetch web
- bundle</a> before firing <code>load</code> events at <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/scripting.html#htmlscriptelement" id="ref-for-htmlscriptelement③">HTMLScriptElement</a></code>. We don’t <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/parsing.html#delay-the-load-event" id="ref-for-delay-the-load-event">delay the load event</a> here, because <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#the-script-is-ready" id="ref-for-the-script-is-ready③">the
- script is ready</a> synchronously in <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#prepare-a-script" id="ref-for-prepare-a-script⑦">prepare a script</a>. This is
+ bundle</a> before firing <code>load</code> events at <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/scripting.html#htmlscriptelement" id="ref-for-htmlscriptelement③">HTMLScriptElement</a></code>. We don’t <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#concept-script-delay-load" id="ref-for-concept-script-delay-load">delay the load event</a> here, because <a data-link-type="dfn">the
+ script is ready</a> synchronously in <a data-link-type="dfn">prepare a script</a>. This is
  intentional because <a data-link-type="dfn" href="#fetch-a-web-bundle" id="ref-for-fetch-a-web-bundle①">fetch a web bundle</a> is similar to preloading.</p>
     <li data-md>
      <p>If <a data-link-type="dfn" href="#the-scripts-result" id="ref-for-the-scripts-result④">the script’s result</a> of <var>element</var> is null, then return.</p>
@@ -810,7 +810,7 @@ scripts.</p>
 from the document</a>, user agents must run the following algorithm:</p>
    <ol>
     <li data-md>
-     <p>If <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/scripting.html#concept-script-type" id="ref-for-concept-script-type④">the script’s type</a> is not "<code>webbundle</code>", then return.</p>
+     <p>If <a data-link-type="dfn">the script’s type</a> is not "<code>webbundle</code>", then return.</p>
     <li data-md>
      <p>If <a data-link-type="dfn" href="#the-scripts-result" id="ref-for-the-scripts-result⑤">the script’s result</a> is null, then return.</p>
     <li data-md>
@@ -1418,22 +1418,16 @@ unlike returning a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#
     <li><a href="#ref-for-concept-document-window">2. Structures</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-delay-the-load-event">
-   <a href="https://html.spec.whatwg.org/multipage/parsing.html#delay-the-load-event">https://html.spec.whatwg.org/multipage/parsing.html#delay-the-load-event</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-concept-script-delay-load">
+   <a href="https://html.spec.whatwg.org/multipage/scripting.html#concept-script-delay-load">https://html.spec.whatwg.org/multipage/scripting.html#concept-script-delay-load</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-delay-the-load-event">3.2. Firing events</a>
+    <li><a href="#ref-for-concept-script-delay-load">3.2. Firing events</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-environment-settings-object">
    <a href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object">https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-environment-settings-object">2. Structures</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-execute-the-script-block">
-   <a href="https://html.spec.whatwg.org/multipage/scripting.html#execute-the-script-block">https://html.spec.whatwg.org/multipage/scripting.html#execute-the-script-block</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-execute-the-script-block">3.2. Firing events</a> <a href="#ref-for-execute-the-script-block①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-in-parallel">
@@ -1454,14 +1448,6 @@ unlike returning a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#
     <li><a href="#ref-for-node-document">3.1. Prepare a script</a>
     <li><a href="#ref-for-node-document①">3.2. Firing events</a>
     <li><a href="#ref-for-node-document②">3.3. Removing</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-prepare-a-script">
-   <a href="https://html.spec.whatwg.org/multipage/scripting.html#prepare-a-script">https://html.spec.whatwg.org/multipage/scripting.html#prepare-a-script</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-prepare-a-script">3. HTML monkeypatches</a>
-    <li><a href="#ref-for-prepare-a-script①">3.1. Prepare a script</a> <a href="#ref-for-prepare-a-script②">(2)</a> <a href="#ref-for-prepare-a-script③">(3)</a> <a href="#ref-for-prepare-a-script④">(4)</a> <a href="#ref-for-prepare-a-script⑤">(5)</a> <a href="#ref-for-prepare-a-script⑥">(6)</a>
-    <li><a href="#ref-for-prepare-a-script⑦">3.2. Firing events</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-process-a-navigate-fetch">
@@ -1498,28 +1484,6 @@ unlike returning a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#
    <a href="https://html.spec.whatwg.org/multipage/workers.html#set-up-a-worker-environment-settings-object">https://html.spec.whatwg.org/multipage/workers.html#set-up-a-worker-environment-settings-object</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-set-up-a-worker-environment-settings-object">2. Structures</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-the-script-is-ready">
-   <a href="https://html.spec.whatwg.org/multipage/scripting.html#the-script-is-ready">https://html.spec.whatwg.org/multipage/scripting.html#the-script-is-ready</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-the-script-is-ready">3.1. Prepare a script</a> <a href="#ref-for-the-script-is-ready①">(2)</a> <a href="#ref-for-the-script-is-ready②">(3)</a>
-    <li><a href="#ref-for-the-script-is-ready③">3.2. Firing events</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-script-script">
-   <a href="https://html.spec.whatwg.org/multipage/scripting.html#concept-script-script">https://html.spec.whatwg.org/multipage/scripting.html#concept-script-script</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-script-script">3. HTML monkeypatches</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-script-type">
-   <a href="https://html.spec.whatwg.org/multipage/scripting.html#concept-script-type">https://html.spec.whatwg.org/multipage/scripting.html#concept-script-type</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-script-type">3. HTML monkeypatches</a>
-    <li><a href="#ref-for-concept-script-type①">3.1. Prepare a script</a> <a href="#ref-for-concept-script-type②">(2)</a>
-    <li><a href="#ref-for-concept-script-type③">3.2. Firing events</a>
-    <li><a href="#ref-for-concept-script-type④">3.3. Removing</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-list-append">
@@ -1705,22 +1669,17 @@ unlike returning a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#
     <ul>
      <li><span class="dfn-paneled" id="term-for-htmlscriptelement">HTMLScriptElement</span>
      <li><span class="dfn-paneled" id="term-for-concept-document-window">associated document</span>
-     <li><span class="dfn-paneled" id="term-for-delay-the-load-event">delays the load event</span>
+     <li><span class="dfn-paneled" id="term-for-concept-script-delay-load">delaying the load event</span>
      <li><span class="dfn-paneled" id="term-for-environment-settings-object">environment settings object</span>
-     <li><span class="dfn-paneled" id="term-for-execute-the-script-block">execute a script block</span>
      <li><span class="dfn-paneled" id="term-for-in-parallel">in parallel</span>
      <li><span class="dfn-paneled" id="term-for-navigate">navigate</span>
      <li><span class="dfn-paneled" id="term-for-node-document">node document</span>
-     <li><span class="dfn-paneled" id="term-for-prepare-a-script">prepare a script</span>
      <li><span class="dfn-paneled" id="term-for-process-a-navigate-fetch">process a navigate fetch</span>
      <li><span class="dfn-paneled" id="term-for-queue-a-microtask">queue a microtask</span>
      <li><span class="dfn-paneled" id="term-for-queue-a-task">queue a task</span>
      <li><span class="dfn-paneled" id="term-for-report-the-exception">report the exception</span>
      <li><span class="dfn-paneled" id="term-for-set-up-a-window-environment-settings-object">set up a window environment settings object</span>
      <li><span class="dfn-paneled" id="term-for-set-up-a-worker-environment-settings-object">set up a worker environment settings object</span>
-     <li><span class="dfn-paneled" id="term-for-the-script-is-ready">the script is ready</span>
-     <li><span class="dfn-paneled" id="term-for-concept-script-script">the script's script</span>
-     <li><span class="dfn-paneled" id="term-for-concept-script-type">the script's type</span>
     </ul>
    <li>
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:

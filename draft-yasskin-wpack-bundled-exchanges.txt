@@ -4,12 +4,12 @@
 
 Network Working Group                                         J. Yasskin
 Internet-Draft                                                    Google
-Intended status: Standards Track                             16 May 2022
-Expires: 17 November 2022
+Intended status: Standards Track                             23 May 2022
+Expires: 24 November 2022
 
 
                               Web Bundles
-                 draft-yasskin-wpack-bundled-exchanges
+              draft-yasskin-wpack-bundled-exchanges-latest
 
 Abstract
 
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 November 2022.
+   This Internet-Draft will expire on 24 November 2022.
 
 Copyright Notice
 

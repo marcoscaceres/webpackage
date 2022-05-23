@@ -4,12 +4,12 @@
 
 Network Working Group                                         J. Yasskin
 Internet-Draft                                                    Google
-Intended status: Informational                               16 May 2022
-Expires: 17 November 2022
+Intended status: Informational                               23 May 2022
+Expires: 24 November 2022
 
 
               Use Cases and Requirements for Web Packages
-                     draft-yasskin-wpack-use-cases
+                  draft-yasskin-wpack-use-cases-latest
 
 Abstract
 
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 November 2022.
+   This Internet-Draft will expire on 24 November 2022.
 
 Copyright Notice
 
